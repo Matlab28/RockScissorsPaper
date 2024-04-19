@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #333; /* Set background color to dark mode */
+      color: #fff; /* Set text color to white */
+    }
+    .game-title {
+      /*background-color: #fff;*/
+      color: #fff; /* Set text color to dark */
+      padding: 10px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+    .game-container {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+      /*background-color: #4CAF50;*/
+      background-color: #20B2AA;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      /*background-color: #45a049;*/
+      background-color: red;
+
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 24px; /* Increased font size */
+      color: #fff; /* Set text color to white */
+      border: 2px solid #fff; /* Added border */
+      padding: 10px; /* Added padding */
+      display: inline-block; /* Added to contain content */
+      border-radius: 10px; /* Rounded corners */
+    }
+  </style>
+</head>
+<body>
+<h2 class="game-title">Rock Paper Scissors Game</h2>
+<div class="game-container">
+  <button onclick="playGame('rock')">Rock</button>
+  <button onclick="playGame('paper')">Paper</button>
+  <button onclick="playGame('scissors')">Scissors</button>
+  <br> <!-- Added line break for result placement -->
+  <div id="result"></div>
+</div>
+
+<script>
+  function playGame(action) {
+
+    var xhr = new XMLHttpRequest();
+    var url = 'http://localhost:8080/play-game';
+    var params = JSON.stringify({
+      "userAnswer": action
+    });
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-type', 'application/json');
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.status == 200) {
+          var response = xhr.responseText;
+          document.getElementById('result').innerText = response; // Update result below buttons
+        } else {
+          alert('Error: ' + xhr.status);
+        }
+      }
+    };
+
+    xhr.send(params);
+  }
+</script>
+
+</body>
+</html>

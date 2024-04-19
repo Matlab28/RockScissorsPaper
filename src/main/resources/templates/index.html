@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+    }
+    button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    #result {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+    </style>
+</head>
+<body>
+<h2>Rock Paper Scissors Game</h2>
+<p>Choose your move: </p>
+<button onclick="playGame('rock')">Rock</button>
+<button onclick="playGame('paper')">Paper</button>
+<button onclick="playGame('scissors')">Scissors</button>
+<div id="result"></div>
+
+<script>
+    function playGame(action) {
+
+        var xhr = new XMLHttpRequest();
+        var url = 'http://localhost:8080/play-game';
+        var params = JSON.stringify({
+            "userAnswer": action
+        });
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status == 200) {
+                    var response = xhr.responseText;
+                    alert(response);
+                } else {
+                    alert('Error: ' + xhr.status);
+                }
+            }
+        };
+
+        xhr.send(params);
+    }
+
+
+</script>
+
+
+</body>
+</html>
